@@ -35,7 +35,6 @@ class ServiceContainer implements IContainer {
     return true;
   }
 
-
   public getService<T>(name: string): T {
     if(!this.services.has(name)) {
       throw new Error(`Service ${name} not found`);
@@ -51,11 +50,9 @@ class ServiceContainer implements IContainer {
   }
 }
 
-
 function createServiceContainer(): ServiceContainer {
   return ServiceContainer.getInstance();
 }
-
 
 export default createServiceContainer;
 export type {

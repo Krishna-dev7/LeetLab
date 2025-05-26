@@ -7,7 +7,6 @@ interface ILogger {
   warn: (message: string) => void
 }
 
-
 class WinstonLogger implements ILogger {
   private logger: winston.Logger;
 
@@ -45,10 +44,9 @@ class WinstonLogger implements ILogger {
   public debug(message: string){
     this.logger.debug(message);
   }
-
 }
 
-const winstonLogger: WinstonLogger = new WinstonLogger();
+const winstonLogger = new WinstonLogger();
 export default winstonLogger;
 export type {
   WinstonLogger

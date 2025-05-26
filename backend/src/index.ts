@@ -1,18 +1,19 @@
 import createServiceContainer from "./container";
 import initServices from "./services";
 import http from "http";
-import app from "./app";
+import createApp from "./app";
 import env from "./env";
 import appConfig from "./config";
 
 async function init() {
-
+  
   const container = createServiceContainer();
   await initServices(container);
+
+  const app = createApp(container);
   const { logger } = container;
 
   try {
-    
     const PORT = +(env.PORT 
       ?? appConfig.DEFAULT_SERVER_PORT)
     
@@ -22,10 +23,8 @@ async function init() {
     })
 
   } catch (err: any) {
-    logger.error(err)
+    logger.error(err.message);
   }
-
 }
 
-
-init();
+init()
