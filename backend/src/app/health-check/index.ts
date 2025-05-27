@@ -1,5 +1,5 @@
 import express from "express";
-import type { ServiceContainer } from "../../../container";
+import type { ServiceContainer } from "../../container";
 import HealthCheckController from "./controller"
 
 function register(

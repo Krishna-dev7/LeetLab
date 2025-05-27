@@ -1,7 +1,7 @@
 import { ServiceContainer } from "../container";
 import cors from "cors";
 import express, { Application } from "express";
-import * as healthCheckRouter from "./routes/health-check";
+import * as healthCheckRouter from "./health-check";
 
 function createApp(container: ServiceContainer): Application {
   const app = express();
