@@ -1,8 +1,7 @@
-import type { ServiceContainer } from "../container";
-import winstonLogger from "./logger/winston";
+import AuthService from "./auth/auth-service";
+import WinstonLogger from "./logger/winston";
 
-async function initServices(container: ServiceContainer) {
-  container.register("logger", winstonLogger);
+export {
+  WinstonLogger,
+  AuthService
 }
-
-export default initServices;

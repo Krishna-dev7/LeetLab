@@ -1,5 +1,5 @@
 import createServiceContainer from "./container";
-import initServices from "./services";
+import { initServices } from "./container";
 import http from "http";
 import createApp from "./app";
 import env from "./env";

@@ -1,5 +1,6 @@
 import multer from "multer";
-import winstonLogger, { WinstonLogger } from "../services/logger/winston";
+import WinstonLogger from "../services/logger/winston";
+import AuthService from "../services/auth/auth-service"
 
 interface IContainer {
   multer: multer.Multer;
@@ -23,7 +24,7 @@ class ServiceContainer implements IContainer {
       },
     });
 
-    this.logger = winstonLogger;
+    this.logger = new WinstonLogger();
     this.services = new Map<string, any>();
   }
 
@@ -54,7 +55,16 @@ function createServiceContainer(): ServiceContainer {
   return ServiceContainer.getInstance();
 }
 
-export default createServiceContainer;
-export type {
-  ServiceContainer
+async function initServices(container: ServiceContainer) {
+  const authService = new AuthService();
+  const winstonLogger = new WinstonLogger();
+  
+  container.register("logger", winstonLogger);
+  container.register("authService", authService);
 }
+
+export default createServiceContainer;
+export { 
+  initServices, 
+  ServiceContainer 
+};

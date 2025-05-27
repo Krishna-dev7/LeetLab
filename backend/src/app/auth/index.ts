@@ -1,5 +1,5 @@
 import express from "express";
-import { ServiceContainer } from "src/container";
+import type { ServiceContainer } from "src/container";
 import AuthController from "./controller";
 
 
@@ -11,8 +11,7 @@ function register(
     const controller = new AuthController(container);
 
 
-    router.post("/signup", 
-      controller.signup.bind(controller))
+    router.post("/signup", controller.signup.bind(controller))
     router.post("/login", controller.login.bind(controller))
     router.get("/forgot-password", 
       controller.forgotPassword.bind(controller))
@@ -21,7 +20,7 @@ function register(
     router.get("/change-password", 
       controller.changePassword.bind(controller))
 
-      
+
     server.use("/auth", router);
 
 }

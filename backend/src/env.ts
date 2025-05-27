@@ -6,8 +6,9 @@ dotEnv.config();
 const envSchema = z.object({
   PORT: z.string(),
   MONGODB_URI: z.string(),
+  DATABASE_URL: z.string(),
+  JWT_SECRET: z.string()
 })
-
 
 function createEnv(env: NodeJS.ProcessEnv){
   const validationResult = envSchema.safeParse(env);

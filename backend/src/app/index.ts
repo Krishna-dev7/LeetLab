@@ -2,6 +2,7 @@ import { ServiceContainer } from "../container";
 import cors from "cors";
 import express, { Application } from "express";
 import * as healthCheckRouter from "./health-check";
+import * as authRouter from "./auth";
 
 function createApp(container: ServiceContainer): Application {
   const app = express();
@@ -16,7 +17,7 @@ function createApp(container: ServiceContainer): Application {
 
   // register routes
   healthCheckRouter.register(app, container)
-
+  authRouter.register(app, container)
   
   // fallback route
   app.use("{*any}", (req, res, next) => {

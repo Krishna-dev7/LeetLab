@@ -46,8 +46,5 @@ class WinstonLogger implements ILogger {
   }
 }
 
-const winstonLogger = new WinstonLogger();
-export default winstonLogger;
-export type {
-  WinstonLogger
-}
+
+export default WinstonLogger;
