@@ -64,9 +64,11 @@ class AuthService {
   public async generateToken(user:User)
     : Promise<string> {
     const token = await jwt.sign(
-      { id: user.id,
+      { 
+        id: user.id,
         email: user.email,
-        image: user.image },
+        image: user.image 
+      },
       env.JWT_SECRET || authConfig.JWT_SECRET,
       { "expiresIn": "7d" } 
     )
@@ -77,7 +79,10 @@ class AuthService {
   public async updateUser() {}
   public async updatePassword() {}
   public async forgotPassword() {}
-  public async logout() {}
+  public async logout() {
+
+
+  }
   public async verify() {}
 }
 

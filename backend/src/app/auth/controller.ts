@@ -129,7 +129,14 @@ class AuthController {
   }
   
   
-  public async logout() {}
+  public async logout(req: e.Request, res: e.Response) {
+    try {
+      
+      
+    } catch (err:any) {
+      this.handleError(err, res);
+    }
+  }
   public async verify() {}
   public async forgotPassword() {}
   public async changePassword() {}
