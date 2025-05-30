@@ -1,8 +1,9 @@
 import e from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import env from "../env";
 import { authConfig } from "../config";
 import createServiceContainer from "../container";
+import db from "../db";
 
 
 async function authMiddleware(
@@ -10,11 +11,12 @@ async function authMiddleware(
   res: e.Response, 
   next: e.NextFunction) {
 
-    const { logger } = createServiceContainer();
+    const container = createServiceContainer();
+    const { logger } = container;
 
     try {
       
-      const token = req.cookies.jwt;
+      const token = req.signedCookies.jwt;
       if(!token) {
         res.status(401)
           .json({
@@ -27,7 +29,7 @@ async function authMiddleware(
       const decodedToken = await jwt.verify(
         token, 
         env.JWT_SECRET || authConfig.JWT_SECRET
-      )
+      ) as JwtPayload
 
       if(!decodedToken) {
          res.status(401)
@@ -38,7 +40,20 @@ async function authMiddleware(
         return;
       }
 
-      req.decodedToken = decodedToken
+      const userData = await db.user.findUnique({
+        where: {id: decodedToken.id}
+      })
+
+      if(!userData) {
+        res.status(401)
+          .json({
+            success: false,
+            message: "unauthorized: user not found"
+          })
+        return;
+      }
+
+      req.userData = userData;
       next();
 
     } catch (err: any) {

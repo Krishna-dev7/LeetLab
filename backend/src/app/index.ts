@@ -3,6 +3,8 @@ import cors from "cors";
 import express, { Application } from "express";
 import * as healthCheckRouter from "./health-check";
 import * as authRouter from "./auth";
+import cookieParser from "cookie-parser";
+import env from "../env";
 
 function createApp(container: ServiceContainer): Application {
   const app = express();
@@ -10,8 +12,9 @@ function createApp(container: ServiceContainer): Application {
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser(env.JWT_SECRET));
 
-  app.get("/", (req, res) => {
+  app.get("/", (_, res) => {
     res.send("Hello")
   })
 

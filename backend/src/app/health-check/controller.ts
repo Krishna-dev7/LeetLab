@@ -4,7 +4,10 @@ class HealthCheckController {
 
   public healthCheck(_: express.Request,
     res: express.Response){
-      res.send("healthy");
+      res.json({
+        success: true,
+        message: "Healthy"
+      });
   }
 
 }

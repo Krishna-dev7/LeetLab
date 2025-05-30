@@ -1,8 +1,9 @@
 import { JwtPayload } from "jsonwebtoken";
+import { User } from "src/generated/prisma";
 
 
 declare module "express" {
   export interface Request {
-    decodedToken?: string | JwtPayload;
+    userData?: string | User | JwtPayload;
   }
 }

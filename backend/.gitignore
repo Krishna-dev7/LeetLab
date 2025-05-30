@@ -5,4 +5,5 @@ node_modules
 logs
 types
 **/logger
-./src/services/logger/winston.ts
+src/services/logger/winston.ts
+src/services/logger

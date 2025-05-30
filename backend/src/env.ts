@@ -7,7 +7,8 @@ const envSchema = z.object({
   PORT: z.string(),
   MONGODB_URI: z.string(),
   DATABASE_URL: z.string(),
-  JWT_SECRET: z.string()
+  JWT_SECRET: z.string(),
+  NODE_ENV: z.enum(["development", "test", "production"]),
 })
 
 function createEnv(env: NodeJS.ProcessEnv){

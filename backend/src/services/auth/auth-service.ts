@@ -39,31 +39,37 @@ class AuthService {
       where: {email: credentials.email}
     })
 
-    if(!existingUser) throw new Error("user not found");
+    if(!existingUser) 
+      throw new Error("user not found");
+
     const isMatch = await bcrypt.compare(
       credentials.password, existingUser.password);
 
-    if(!isMatch) throw new Error("invalid credentials");
+    if(!isMatch) 
+      throw new Error("invalid credentials");
+
     return existingUser;
   }
   
   public async getUser(id: string)
     : Promise<User | false> {
+
       const user = await db.user.findUnique({
         where: {id}
       })
-      
       return user ?? false;
   }
   
   public async streamUsers(){
+
     const users = await db.user.findMany({});
     return users 
   }
   
   public async generateToken(user:User)
     : Promise<string> {
-    const token = await jwt.sign(
+
+    const token = jwt.sign(
       { 
         id: user.id,
         email: user.email,
@@ -79,10 +85,6 @@ class AuthService {
   public async updateUser() {}
   public async updatePassword() {}
   public async forgotPassword() {}
-  public async logout() {
-
-
-  }
   public async verify() {}
 }
 

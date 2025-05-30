@@ -3,6 +3,7 @@ import e from "express";
 import { ServiceContainer } from "../../container";
 import { loginSchema, signupSchema } from "../../schemas/auth.schema";
 import { AuthService, WinstonLogger } from "../../services";
+import env from "../../env";
 
 
 type Schemas = (
@@ -54,20 +55,30 @@ class AuthController {
   public async login(req: e.Request, res: e.Response) {
     try {
 
-      const {email, password} = req.body;
-      this.handleCredentials(
+      const { email, password } = req.body;
+      const credentials = { email, password };
+
+      this.handleCredentials( 
         loginSchema,
-        { email, password },
-        res
-      )
+        credentials, res )
       
-      const credentials = {email, password};
-      const user = await this.authService.login(credentials)
-      const token = await this.authService.generateToken(user);
+      const user = await 
+        this.authService.login(credentials)
+
+      const token = await 
+        this.authService.generateToken(user);
+      
+      res
+        .cookie("jwt", token, {
+          httpOnly: true,
+          sameSite: true,
+          signed: true,
+          maxAge: 1000 * 60 * 50 * 24 * 7,
+          secure: true
+        })
 
       res
         .status(200)
-        .cookie("jwt", token)
         .json({
           success: true,
           message: "user logged in successfully" })
@@ -128,15 +139,36 @@ class AuthController {
     }
   }
   
-  
   public async logout(req: e.Request, res: e.Response) {
     try {
       
+      if(!req.userData) {
+        res.status(401)
+          .json({
+            success: false,
+            message: "login first"
+          })
+        return;
+      }
+
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: true,
+        signed: true,
+        secure: env.NODE_ENV === "production",
+      })
+
+      res.status(200)
+        .json({
+          success: true,
+          message: "user logged out successfully"
+        })
       
     } catch (err:any) {
       this.handleError(err, res);
     }
   }
+  
   public async verify() {}
   public async forgotPassword() {}
   public async changePassword() {}
