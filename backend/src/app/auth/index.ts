@@ -12,16 +12,38 @@ function register(
     const controller = new AuthController(container);
 
 
-    router.post("/signup", controller.signup.bind(controller))
-    router.post("/login", controller.login.bind(controller))
-    router.get("/stream", controller.streamUsers.bind(controller))
-    router.get("/get-user", controller.getUser.bind(controller))
-    router.get("/logout", authMiddleware, controller.logout.bind(controller))
+    router.post(
+      "/signup", 
+      controller.signup.bind(controller)
+    )
 
-    router.get("/forgot-password", 
+    router.post(
+      "/login", 
+      controller.login.bind(controller))
+
+    router.get(
+      "/stream", 
+      controller.streamUsers.bind(controller))
+
+    router.get(
+      "/get-user", 
+      controller.getUser.bind(controller))
+
+    router.get(
+      "/logout", 
+      authMiddleware, 
+      controller.logout.bind(controller))
+
+    router.get(
+      "/forgot-password", 
       controller.forgotPassword.bind(controller))
-    router.get("/verify", controller.forgotPassword.bind(controller))
-    router.get("/change-password", 
+
+    router.get(
+      "/verify", 
+      controller.forgotPassword.bind(controller))
+
+    router.get(
+      "/change-password", 
       controller.changePassword.bind(controller))
 
     

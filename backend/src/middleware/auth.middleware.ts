@@ -61,9 +61,51 @@ async function authMiddleware(
       res.status(500)
         .json({
           success: false,
-          message: err.message || "auth middleware error"
+          message: "auth middleware error",
+          error: err.message || err
         })
     }
 }
 
+
+
+function checkAdmin(
+  req: e.Request, 
+  res: e.Response, 
+  next: e.NextFunction) {
+
+    const container = createServiceContainer();
+    const {logger} = container
+    try {
+
+      const userData = req.userData as JwtPayload;
+
+      if(userData.role != "ADMIN" ) {
+        res.status(401)
+          .json({
+            success: false,
+            message: "You don't have persmission to create a problem"
+          })
+        return;
+      }
+      
+
+      next();
+      
+    } catch (err:any) {
+      logger.error(err);
+      res.status(500)
+        .json({
+          success: false,
+          message: "checkAdmin: problem during admin check",
+          error: err.message
+        })
+    }
+  
+}
+
 export default authMiddleware;
+
+export {
+  checkAdmin
+}

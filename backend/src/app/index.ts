@@ -1,10 +1,14 @@
 import { ServiceContainer } from "../container";
 import cors from "cors";
-import express, { Application } from "express";
-import * as healthCheckRouter from "./health-check";
-import * as authRouter from "./auth";
 import cookieParser from "cookie-parser";
 import env from "../env";
+import express, { Application } from "express";
+
+// router imports
+import * as healthCheckRouter from "./health-check";
+import * as authRouter from "./auth";
+import * as problemRouter from "../app/problem";
+
 
 function createApp(container: ServiceContainer): Application {
   const app = express();
@@ -19,8 +23,9 @@ function createApp(container: ServiceContainer): Application {
   })
 
   // register routes
-  healthCheckRouter.register(app, container)
-  authRouter.register(app, container)
+  healthCheckRouter.register(app, container);
+  authRouter.register(app, container);
+  problemRouter.register(app, container);
   
   // fallback route
   app.use("{*any}", (req, res, next) => {
