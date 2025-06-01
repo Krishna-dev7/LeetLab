@@ -1,6 +1,10 @@
 class ProblemService {
 
-  
+  public async createProblem(data: {
+
+  }){
+
+  }
 
 }
 

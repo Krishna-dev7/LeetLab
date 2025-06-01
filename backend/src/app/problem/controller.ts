@@ -42,7 +42,7 @@ class ProblemController {
       .json({
         success: false,
         message: "ProblemController: error in controller",
-        error: { msg: err.message || err }
+        error: { message: err.message || err }
       })
   }
 

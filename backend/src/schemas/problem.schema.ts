@@ -6,5 +6,4 @@ const problemSchema = z.object({
   difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
   tags: z.string().optional(),
   constraints: z.string().optional(),
-
 })
