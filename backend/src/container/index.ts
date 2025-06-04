@@ -1,6 +1,7 @@
 import multer from "multer";
 import WinstonLogger from "../services/logger/winston";
 import AuthService from "../services/auth/auth-service"
+import { ProblemService } from "../services";
 
 interface IContainer {
   multer: multer.Multer;
@@ -58,9 +59,11 @@ function createServiceContainer(): ServiceContainer {
 async function initServices(container: ServiceContainer) {
   const authService = new AuthService();
   const winstonLogger = new WinstonLogger();
+  const problemService = new ProblemService(container);
   
   container.register("logger", winstonLogger);
   container.register("authService", authService);
+  container.register("problemService", problemService);
 }
 
 export default createServiceContainer;

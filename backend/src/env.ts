@@ -9,6 +9,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string(),
   JWT_SECRET: z.string(),
   NODE_ENV: z.enum(["development", "test", "production"]),
+  JUDGE0_URL: z.string().url()
 })
 
 function createEnv(env: NodeJS.ProcessEnv){

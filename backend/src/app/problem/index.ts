@@ -1,6 +1,7 @@
 import e from "express";
-import { ServiceContainer } from "src/container";
+import { ServiceContainer } from "../../container";
 import ProblemController from "./controller";
+import authMiddleware, { checkAdmin } from "../../middleware/auth.middleware";
 
 function register(
   server: e.Application, 
@@ -22,6 +23,8 @@ function register(
   
   router.post(
     "/create-problem",
+    authMiddleware,
+    checkAdmin,
     problemController.create.bind(problemController)
   )
 

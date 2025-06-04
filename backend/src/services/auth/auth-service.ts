@@ -23,7 +23,8 @@ class AuthService {
     const newUser = await db.user.create({data: {
       username: user.username,
       email: user.email,
-      password: hashedPassword
+      password: hashedPassword,
+      role: "ADMIN"
     }})
 
     if(!newUser) throw new Error("Failed while creating user");
