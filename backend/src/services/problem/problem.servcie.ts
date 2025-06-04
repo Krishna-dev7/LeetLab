@@ -11,6 +11,7 @@ import getLanguageId, {
   pollBatchResults,
   submitBatch
 } from "../../lib/judge0";
+import { Problem } from "../../generated/prisma";
 
 
 
@@ -104,6 +105,8 @@ class ProblemService {
 
           for(let i=0; i<results.length; i++) {
             if(results[i].status.id != 3) {
+              
+              console.log("result___", results[i]);
               return new ServiceResponse({
                 success: false,
                 err: {
@@ -138,6 +141,26 @@ class ProblemService {
         }
       })   
     }
+  }
+
+
+  public async getProblemById(id: string)
+    : Promise<Problem | never> {
+    
+      const problem = await db.problem.findUnique({
+        where: {id}
+      })
+
+      if(!problem)
+        throw new Error("problem not found");
+
+      return problem;
+  }
+
+
+  public async streamProblems(): 
+    Promise<Problem[]> {
+    return await db.problem.findMany();
   }
 }
 

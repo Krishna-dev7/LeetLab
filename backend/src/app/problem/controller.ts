@@ -42,14 +42,14 @@ class ProblemController {
         return;
       }
 
-      const problem = await this.problemService
+      const problemResponse = await this.problemService
         .createProblem(data, user.id);
 
       res.status(201)
         .json({
           success: true,
           message: "problem created successfully",
-          data: problem
+          data: problemResponse
         })
 
     } catch (err:any) {
@@ -58,8 +58,53 @@ class ProblemController {
 
   }
 
-  async streamProblems() {}
-  async getProblem() {}
+  async getProblem(req: e.Request, res: e.Response) {
+    try {
+      
+      const id = req.params.id as string;
+
+      if(!id) {
+        res.status(400)
+          .json({
+            success: false,
+            message: "id is missing"
+          })
+        return
+      }
+
+      const problem = await this.problemService
+        .getProblemById(id);
+
+      res.status(200)
+        .json({
+          success: true,
+          message: "problem found",
+          data: problem
+        })
+
+    } catch (err:any) {
+      this.handleError(err, res)
+    }
+  }
+
+  async streamProblems(req: e.Request, res: e.Response) {
+    try {
+
+      const problems = await this.problemService
+        .streamProblems();
+
+      res.status(200)
+        .json({
+          success: true,
+          message: "data obtained",
+          data: problems
+        })
+      
+    } catch (err:any) {
+      this.handleError(err, res)
+    }
+  }
+  
   async updateProblem() {}
   async deleteProblem() {}
   async getAllProblemSolvedByUser() {}
