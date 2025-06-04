@@ -87,7 +87,7 @@ class ProblemController {
     }
   }
 
-  async streamProblems(req: e.Request, res: e.Response) {
+  async streamProblems(_: e.Request, res: e.Response) {
     try {
 
       const problems = await this.problemService
@@ -104,9 +104,54 @@ class ProblemController {
       this.handleError(err, res)
     }
   }
-  
+
+  async deleteProblemById(req: e.Request, res: e.Response) {
+    try {
+
+      const id = req.params.id as string;
+
+      if(!id) {
+        res.status(400)
+          .json({
+            success: false,
+            message: "id is missing"
+          })
+        return;
+      }
+
+      const problem = await this.problemService
+        .deleteProblemById(id);
+
+      res.status(204)
+        .json({
+          success: true,
+          message: "problem deleted",
+          data: problem
+        })
+      
+    } catch (err:any) {
+      this.handleError(err, res)
+    }
+  }
+
+  async deleteProblems(_: e.Request, res: e.Response) {
+    try {
+      
+      await this.problemService
+        .deleteProblems();
+
+      res.status(204)
+        .json({
+          success: true,
+          message: "problems deleted"
+        })
+
+    } catch (err:any) {
+      this.handleError(err, res)
+    }
+  }
+
   async updateProblem() {}
-  async deleteProblem() {}
   async getAllProblemSolvedByUser() {}
   
 

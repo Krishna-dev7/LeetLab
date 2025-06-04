@@ -17,12 +17,12 @@ function register(
   )
 
   router.get(
-    "/get-problem/:id",
+    "/:id",
     problemController.getProblem.bind(problemController)
   )
   
   router.post(
-    "/create-problem",
+    "/",
     authMiddleware,
     checkAdmin,
     problemController.create.bind(problemController)
@@ -34,12 +34,17 @@ function register(
   )
 
   router.delete(
-    "/delete-problem",
-    problemController.deleteProblem.bind(problemController)
+    "/:id",
+    problemController.deleteProblemById.bind(problemController)
+  )
+
+  router.delete(
+    "/",
+    problemController.deleteProblems.bind(problemController)
   )
 
 
-  server.use("/problem", router)
+  server.use("/problems", router)
 }
 
 

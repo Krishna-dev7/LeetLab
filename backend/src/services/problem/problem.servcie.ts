@@ -143,7 +143,6 @@ class ProblemService {
     }
   }
 
-
   public async getProblemById(id: string)
     : Promise<Problem | never> {
     
@@ -157,11 +156,23 @@ class ProblemService {
       return problem;
   }
 
-
   public async streamProblems(): 
     Promise<Problem[]> {
     return await db.problem.findMany();
   }
+
+  public async deleteProblemById(id: string)
+    : Promise<Problem> {
+      return await db.problem.delete({
+        where: {id}
+      })
+  }
+
+  public async deleteProblems() {
+    await db.problem.deleteMany();
+  }
+
+
 }
 
 
